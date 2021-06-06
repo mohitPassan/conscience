@@ -6,6 +6,7 @@ const PollutionMeter = () => {
         city: '',
         country: ''
     });
+    const [prediction, setPrediction] = useState('');
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -26,7 +27,7 @@ const PollutionMeter = () => {
             }
 
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
             setData(data);
         }
         catch (err) {
@@ -34,19 +35,38 @@ const PollutionMeter = () => {
         }
     }
 
+    const getClass = async () => {
+        try {
+            const response = await fetch(`http://127.0.0.1:5000/?data=${JSON.stringify(data)}`);
+            const { prediction } = await response.json();
+            // console.log(prediction["prediction"]);
+            setPrediction(prediction);
+        }
+        catch (err) {
+            console.error('Error: ', err.message);
+        }
+
+    }
+
     return (
-        <form onSubmit={getPollutants}>
-            <label htmlFor="city">Enter city</label>
-            <input id="city" name="city" onChange={handleChange}/>
-            <label htmlFor="country">Enter country</label>
-            <input id="country" name="country" onChange={handleChange}/>
-            <button>Get pollutants</button>
-            <ul>
-                {
-                    Object.keys(data).map((pollutant, idx) => <li key={idx}>{`${pollutant}: ${data[pollutant]}`}</li>)
-                }
-            </ul>
-        </form>
+        <>
+            <form onSubmit={getPollutants}>
+                <label htmlFor="city">Enter city</label>
+                <input id="city" name="city" onChange={handleChange} />
+                <label htmlFor="country">Enter country</label>
+                <input id="country" name="country" onChange={handleChange} />
+                <button>Get pollutants</button>
+                <ul>
+                    {
+                        Object.keys(data).map((pollutant, idx) => <li key={idx}>{`${pollutant}: ${data[pollutant]}`}</li>)
+                    }
+                </ul>
+            </form>
+            <button onClick={getClass}>Get class</button>
+            {
+                prediction && <p>{prediction}</p>
+            }
+        </>
     )
 }
 
