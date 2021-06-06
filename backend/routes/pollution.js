@@ -7,8 +7,8 @@ const router = express.Router();
 dotenv.config();
 
 router.get('/', async (req, res) => {
-    const city = 'delhi';
-    const country = 'india';
+    const { city, country } = req.query;
+    console.log({ city, country });
     const apiKey = process.env.OPEN_WEATHER_API_KEY;
 
     try {
@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
         }
         
         const pollutionData = await pollutionResponse.json();
-        res.send(pollutionData);
+        res.send(pollutionData.list[0].components);
     }
     catch (err) {
         res.status(500).send({
