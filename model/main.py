@@ -11,7 +11,7 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 def predict(data):
-    predictionList = ['Bad', 'Very bad', 'Fucked up', 'Delhi level']
+    predictionList = ['Bad', 'Very bad', 'Fucked up', 'Delhi level', 'Worse than Delhi']
     prediction = random.choice(predictionList)
     return prediction
   

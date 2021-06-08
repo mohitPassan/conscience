@@ -20,7 +20,7 @@ const PollutionMeter = () => {
         event.preventDefault();
         const { city, country } = formData;
         try {
-            const response = await fetch(`http://localhost:3000/pollution?city=${city}&country=${country}`);
+            const response = await fetch(`http://localhost:8000/pollution?city=${city}&country=${country}`);
 
             if (response.status === 400) {
                 throw new Error('Could not fetch pollution data from client');
